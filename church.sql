@@ -206,7 +206,7 @@ DROP TABLE IF EXISTS `church`.`member_ordinance` ;
 
 CREATE TABLE IF NOT EXISTS `church`.`member_ordinance` (
   `member_ordinance_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `member_ordinance_date` VARCHAR(45) NOT NULL,
+  `member_ordinance_date` DATE NOT NULL,
   `ordinance_id` INT UNSIGNED NOT NULL,
   `member_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`member_ordinance_id`),
