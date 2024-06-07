@@ -30,7 +30,13 @@ VALUES
 --    Write the query that would allow the 7 columns of values 
 --    (all but the primary key) to show up alphabetically by the last name. 
 -- ------------------------------------------------------------------------------------
-SELECT *
+SELECT fname,
+		mname,
+        lname,
+        dob,
+        dod,
+        country,
+        local
 FROM artist
 ORDER BY lname ASC
 LIMIT 7;
