@@ -58,7 +58,7 @@ LIMIT 14;
 --    Adjust the column headings to appear as the screenshot shows.
 -- -------------------------------------------------------------------------------------------
 SELECT product_name AS "Bike",
-		CONCAT("$", list_price) AS Price,
+		CONCAT("$", FORMAT(list_price, 2, 'en_US')) AS Price,
         CONCAT("$", ROUND(list_price * 0.1), ".00") AS "10% Down",
         CONCAT("$", ROUND((list_price - (list_price * 0.1)) / 4), ".00") AS "Four Equal Payments"
 FROM product
