@@ -42,7 +42,9 @@ USE bike;
 SELECT *
 FROM store;
 
--- 2. Add some text with two columns like this: "The 'store_name' email is 'email'" 
+-- 2. Add some text with two columns like this: "The 'store_name' email is 'email'"
+SELECT CONCAT('The ', store_name, ' email is ', email)
+FROM store; 
 
 -- 3. If we used store_id instead of the store_name, 
 --    it would become a part of the string and would not be an integer any more.
@@ -65,6 +67,8 @@ SELECT RTRIM('    This is the password   '), ('    This is the password');
 SELECT LTRIM('    This is the password   '), ('This is the password   ');
 
 -- 6. Change all the text to upper case for store names
+SELECT UPPER(store_name)
+FROM store;
 
 -- 7. Change all the text to lower case for store names
 SELECT LOWER(store_name)
@@ -75,11 +79,18 @@ FROM store;
 -- 8. Locate the word 'Girl' in the product name 
 --    and return the product name too 
 --    only display the ones that have the word Girl
+SELECT LOCATE('Girl', product_name)
+FROM product
+WHERE product_name LIKE '%Girl%';
 
 -- Note: parameters for SUBSTRING(string, start, length)--
 -- 9. Show me the product_name and then 
 --    extract the actual text of Girl from product_names as a new column
 --    return everything after the word 'Girl' in a new column
+SELECT SUBSTRING(product_name, LOCATE('Girl', product_name), 4),
+		SUBSTRING(product_name, LOCATE('Girl', product_name) + 4)
+FROM product
+WHERE product_name LIKE '%Girl%';
 
 
 -- *******************************
@@ -94,15 +105,28 @@ FROM store;
 */
 
 -- 10. Show prices of products
+SELECT list_price
+FROM product;
 
 -- 11. Round the list price from products and show the price 
 --     do it for no parameter,1 decimal place, 2 decimal places, and 3 decimal places
+SELECT ROUND(list_price),
+		ROUND(list_price, 1),
+        ROUND(list_price, 2),
+        ROUND(list_price, 3)
+FROM product;
 
 -- 12. Round down (remove any decimal)
+SELECT FLOOR(list_price)
+FROM product;
 
 -- 13. Roundup  the list price from products and show the price
+SELECT CEILING(list_price)
+FROM product;
 
 -- 14. Return the prices with the dollar sign in front (Use FORMAT())
+SELECT CONCAT('$', FORMAT(list_price, 2, 'en_US'))
+FROM product;
 
 
 -- *******************************
@@ -117,20 +141,35 @@ FROM store;
 */
 
 -- 15. Show me the year of the order date
-SELECT DATE_FORMAT(order_date, '%Y')
+SELECT DATE_FORMAT(order_date, '%Y'),
+		YEAR(order_date),
+        order_date
 FROM cust_order;
 
 -- 16. Show me the day of the order date
-SELECT DATE_FORMAT(order_date, '%d')
+SELECT DATE_FORMAT(order_date, '%d'),
+		DAY(order_date),
+        order_date
 FROM cust_order;
 
 
 -- 17. Show me the month of the order date
 -- Hint: SELECT MONTH(order_date), order_date
+SELECT DATE_FORMAT(order_date, '%M'),
+		MONTH(order_date),
+        order_date
+FROM cust_order;
 
 -- 18. Show me the system date and time (There are 2 ways)
+SELECT NOW();
+SELECT sysdate();
+		
 
 -- 19. Add 9 days to the order_date 
+SELECT DATE_ADD(order_date, INTERVAL 9 DAY),
+		order_date,
+        DATEDIFF(DATE_ADD(order_date, INTERVAL 9 DAY), order_date)
+FROM cust_order;
 
 -- Show me how many days until Halloween
 SELECT DATEDIFF('2024-10-31', NOW()) AS 'Days until Halloween';
@@ -149,6 +188,8 @@ SELECT CEILING(DATEDIFF('2023-12-25', '2023-6-25') / 7 );
 -- %W	Weekday name
 
 -- 20. Show me the order date as something like this 'January 1st, 2035'
+SELECT DATE_FORMAT(order_date, '%M %D, %Y')
+FROM cust_order;
 
 
 -- **************************
