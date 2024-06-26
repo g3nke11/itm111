@@ -59,7 +59,7 @@ FROM employees;
 --    in the thousands place and dollar sign in front. 
 -- -------------------------------------------------------------------------------------------
 SELECT dp.dept_name,
-		FORMAT(AVG(sa.salary), 2) AS 'average_salary'
+		CONCAT("$", FORMAT(AVG(sa.salary), 2)) AS 'average_salary'
 FROM dept_emp de
 JOIN salaries sa
 	ON sa.emp_no = de.emp_no
