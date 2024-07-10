@@ -98,6 +98,19 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `university`.`term`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `university`.`term` ;
+
+CREATE TABLE IF NOT EXISTS `university`.`term` (
+  `term_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `term_season` VARCHAR(45) NOT NULL,
+  `term_year` YEAR(4) NOT NULL,
+  PRIMARY KEY (`term_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `university`.`section`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `university`.`section` ;
@@ -107,11 +120,18 @@ CREATE TABLE IF NOT EXISTS `university`.`section` (
   `section_number` VARCHAR(45) NOT NULL,
   `section_capacity` INT NOT NULL,
   `course_id` INT UNSIGNED NOT NULL,
+  `term_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`section_id`),
   INDEX `fk_section_course1_idx` (`course_id` ASC) VISIBLE,
+  INDEX `fk_section_term1_idx` (`term_id` ASC) VISIBLE,
   CONSTRAINT `fk_section_course1`
     FOREIGN KEY (`course_id`)
     REFERENCES `university`.`course` (`course_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_section_term1`
+    FOREIGN KEY (`term_id`)
+    REFERENCES `university`.`term` (`term_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -142,26 +162,6 @@ CREATE TABLE IF NOT EXISTS `university`.`enrollment` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_enrollment_section1`
-    FOREIGN KEY (`section_id`)
-    REFERENCES `university`.`section` (`section_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `university`.`term`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `university`.`term` ;
-
-CREATE TABLE IF NOT EXISTS `university`.`term` (
-  `term_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `term_season` VARCHAR(45) NOT NULL,
-  `term_year` YEAR(4) NOT NULL,
-  `section_id` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`term_id`),
-  INDEX `fk_term_section1_idx` (`section_id` ASC) VISIBLE,
-  CONSTRAINT `fk_term_section1`
     FOREIGN KEY (`section_id`)
     REFERENCES `university`.`section` (`section_id`)
     ON DELETE NO ACTION
